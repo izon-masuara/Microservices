@@ -1,13 +1,11 @@
 package routers
 
-import "net/http"
+import (
+	"net/http"
+	"user/controllers"
+)
 
 func Home() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello Home"))
-	})
-
-	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("register"))
-	})
+	url := "/api/v1/user"
+	http.HandleFunc(url+"/login", controllers.Login)
 }
