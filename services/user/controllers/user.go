@@ -5,39 +5,26 @@ import (
 	"io/ioutil"
 	"net/http"
 	"user/models"
+	"user/query"
 )
-
-type UserLogin struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-var users = []UserLogin{
-	{
-		Username: "Budi",
-		Password: "saha234",
-	},
-	{
-		Username: "Jindan",
-		Password: "7834j",
-	},
-}
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		models.GetAllUser()
-		res, _ := ioutil.ReadAll(r.Body)
-		defer r.Body.Close()
-		var payload UserLogin
-		json.Unmarshal(res, &payload)
-		for _, user := range users {
-			if user.Username == payload.Username && user.Password == payload.Password {
-				w.WriteHeader(http.StatusOK)
-				w.Write([]byte("Success Login"))
-				return
-			}
+		var message string
+		res, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			message = "Invalid payload from client"
 		}
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte("Invalid Username or Password"))
+		defer r.Body.Close()
+		var payload models.UserLogin
+		json.Unmarshal(res, &payload)
+		message, statusCode := query.SuccessLogin(payload)
+		if statusCode == 200 {
+			w.WriteHeader(http.StatusOK)
+		} else if statusCode == 400 {
+			w.WriteHeader(http.StatusBadRequest)
+		}
+		w.Write([]byte(message))
 	}
 }

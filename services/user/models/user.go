@@ -1,14 +1,12 @@
 package models
 
-import (
-	"fmt"
-	"user/config"
-)
+type User struct {
+	User_id  int    `json:"userId"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
 
-func GetAllUser() {
-	err := config.Db.Ping()
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Println("Masuk di models")
+type UserLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
