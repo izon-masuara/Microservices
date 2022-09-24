@@ -19,7 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		var payload models.UserLogin
 		json.Unmarshal(res, &payload)
-		message, statusCode := query.SuccessLogin(payload)
+		message, statusCode := query.CheckUserExists(payload)
 		if statusCode == 200 {
 			w.WriteHeader(http.StatusOK)
 		} else if statusCode == 400 {
