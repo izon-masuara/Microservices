@@ -26,25 +26,3 @@ func VerifyToken(tokenString string) (jwt.Claims, error) {
 	}
 	return token.Claims, err
 }
-
-/*
-func getToken(name string) (string, error) {
-	signingKey := []byte("keymaker")
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"name": name,
-	})
-	res, err := token.SignedString(signingKey)
-	return res, err
-}
-
-func verifyToken(tokenString string) (jwt.Claims, error) {
-	signingKey := []byte("keymaker")
-	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
-		return signingKey, nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	return token.Claims, err
-}
-*/
