@@ -1,12 +1,13 @@
 package query
 
 import (
-	"user/config"
+	"user/configs"
+	"user/helpers"
 	"user/models"
 )
 
-func SuccessLogin(payload models.UserLogin) (string, int) {
-	db := config.Db
+func CheckUserExists(payload models.UserLogin) (string, int) {
+	db := configs.Db
 	res, err := db.Query(`
 		SELECT "user_id", "username", "password"
 		FROM "users"
@@ -28,5 +29,9 @@ func SuccessLogin(payload models.UserLogin) (string, int) {
 	} else if payload.Password != user.Password {
 		return "Invalid usernname or password", 400
 	}
-	return "Access Token", 200
+	accessToken, err := helpers.GetToken(user.User_id, user.Username)
+	if err != nil {
+		panic(err.Error())
+	}
+	return accessToken, 200
 }
