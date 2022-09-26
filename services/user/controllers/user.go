@@ -16,21 +16,36 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		var message string
 		res, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
 			message = "Invalid payload from client"
+			http.Error(w, message, 400)
 		}
 		defer r.Body.Close()
+
+		// Get model user
 		var payload models.UserLogin
 		json.Unmarshal(res, &payload)
+
 		message, statusCode := query.CheckUserExists(payload)
-		if statusCode == 200 {
+		if statusCode == 202 {
 			w.WriteHeader(http.StatusOK)
+			var accessToken = models.Token{
+				AccessToken: message,
+			}
+			data, err := json.Marshal(accessToken)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				http.Error(w, "Bad request", 400)
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			w.Write(data)
 		} else if statusCode == 400 {
 			w.WriteHeader(http.StatusBadRequest)
+			http.Error(w, message, 400)
 		} else if statusCode == 404 {
 			w.WriteHeader(http.StatusNotFound)
+			http.Error(w, message, 400)
 		}
-		w.Write([]byte(message))
 	}
 }
 
@@ -39,10 +54,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		var message string
 		res, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
 			message = "Invalid payload from client"
+			http.Error(w, message, 400)
 		}
 		defer r.Body.Close()
+
+		// Get model user
 		var payload models.UserLogin
 		json.Unmarshal(res, &payload)
 		if len(payload.Username) < 3 || len(payload.Password) < 3 {
@@ -57,7 +74,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusBadRequest)
 			}
 		}
-		w.Write([]byte(message))
+		var msg = models.GeneralMessage{
+			Message: message,
+		}
+		result, err := json.Marshal(msg)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			http.Error(w, "Bad request", 400)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		w.Write(result)
 	}
 }
 
@@ -99,7 +126,15 @@ func CheckToken(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusAccepted)
 			w.Write(data)
 		} else {
-			w.Write([]byte("Bad Request"))
+			var msg = models.GeneralMessage{
+				Message: "Bad request",
+			}
+			res, err := json.Marshal(msg)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				http.Error(w, "Bad request", 400)
+			}
+			w.Write(res)
 		}
 	}
 }

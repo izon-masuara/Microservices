@@ -4,12 +4,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func HassPass(pass string) string {
+func HassPass(pass string) (interface{}, error) {
 	res, err := bcrypt.GenerateFromPassword([]byte(pass), 5)
 	if err != nil {
-		return err.Error()
+		return nil, err
 	}
-	return string(res)
+	return string(res), nil
 }
 
 func ComparePass(passFromDb string, pass string) (interface{}, error) {
