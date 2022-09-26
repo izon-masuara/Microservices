@@ -9,9 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var Db *sql.DB
-
-// return error yang nantinya akan di tangkap middleware jika error
+// Connect to database
 func Connect() {
 	appConfig := models.EnvConfig{
 		HOST:    os.Getenv("DB_HOST"),
@@ -28,5 +26,5 @@ func Connect() {
 		panic(err.Error())
 	}
 	fmt.Println("Connected!")
-	Db = db
+	models.Db = db
 }
