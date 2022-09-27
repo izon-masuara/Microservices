@@ -2,7 +2,7 @@ package routers
 
 import (
 	"net/http"
-	"user/controllers"
+	"user/package/controllers"
 )
 
 // All of routers

@@ -2,14 +2,14 @@ package main
 
 import (
 	"net/http"
-	"user/configs"
-	"user/routers"
+	"user/package/configs"
+	"user/package/routers"
 
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
+	err := godotenv.Load("../.env")
 	if err != nil {
 		panic("Error .env file")
 	}

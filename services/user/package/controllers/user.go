@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"user/helpers"
-	"user/models"
-	"user/query"
+	"user/package/helpers"
+	"user/package/models"
+	"user/package/query"
 
 	"github.com/golang-jwt/jwt/v4"
 )

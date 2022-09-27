@@ -2,8 +2,8 @@ package query
 
 import (
 	"time"
-	"user/helpers"
-	"user/models"
+	"user/package/helpers"
+	"user/package/models"
 )
 
 /*

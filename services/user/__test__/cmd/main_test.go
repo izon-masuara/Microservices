@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 	db_test "user/__test__/db"
-	"user/controllers"
-	"user/models"
+	"user/package/controllers"
+	"user/package/models"
 )
 
 var baseUrl = "http://localhost:3000/api/v1/user"
