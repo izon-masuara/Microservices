@@ -24,7 +24,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// Get model user
 		var payload models.UserLogin
 		json.Unmarshal(res, &payload)
-
 		message, statusCode := query.CheckUserExists(payload)
 		if statusCode == 202 {
 			w.WriteHeader(http.StatusOK)

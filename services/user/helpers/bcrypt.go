@@ -1,11 +1,19 @@
 package helpers
 
 import (
+	"os"
+	"strconv"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
 func HassPass(pass string) (interface{}, error) {
-	res, err := bcrypt.GenerateFromPassword([]byte(pass), 5)
+	key := os.Getenv("HASH")
+	number, err := strconv.Atoi(key)
+	if err != nil {
+		return nil, err
+	}
+	res, err := bcrypt.GenerateFromPassword([]byte(pass), number)
 	if err != nil {
 		return nil, err
 	}
