@@ -2,10 +2,7 @@ package cmd_test
 
 import (
 	"bytes"
-	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"net/http"
 	"net/http/httptest"
 	"testing"
 	db_test "user/__test__/db"
@@ -36,31 +33,40 @@ func testingApi(method string, path string, payload []byte) string {
 	return string(data)
 }
 
+var payload = []byte(`{
+	"username": "Budi",
+	"password": "pass"
+}`)
+
+var payloadWithoutUsername = []byte(`{
+	"password": "pass"
+}`)
+
+var payloadWithoutPass = []byte(`{"username":"Budi"}`)
+
+var payload2 = []byte(`{
+	"username": "Budi",
+	"password": "pass"
+}`)
+
+var payloadWrongUsername = []byte(`{
+	"username": "Budi1",
+	"password": "pass"
+}`)
+
+var payloadWrongPassword = []byte(`{
+	"username": "Budi",
+	"password": "passsad"
+}`)
+
+var token models.Token
+
 func TestLogin(t *testing.T) {
 	db_test.Connect()
 	db_test.Migrate()
 	defer db_test.DropTable()
 
-	var payload = []byte(`{
-		"username": "Budi",
-		"password": "pass"
-	}`)
-
-	addUser := testingApi(http.MethodPost, "/register", payload)
-	if addUser != `{"message":"Success Register"}` {
-		t.Error("Failed Add User")
-	}
-	var token models.Token
-
-	loginWithoutPayload := testingApi(http.MethodPost, "/login", payload)
-	json.Unmarshal([]byte(loginWithoutPayload), &token)
-	if token.AccessToken == "" {
-		t.Error("Failed login")
-	}
-
-	var accessToken = []byte(fmt.Sprintf(`{"accessToken":"%v"}`, token.AccessToken))
-	checkToken := testingApi(http.MethodPost, "/token", accessToken)
-	if checkToken != `{"userId":1,"username":"Budi"}` {
-		t.Error("Invalid token")
-	}
+	addUserTest(t)
+	loginTest(t)
+	accessTokenTest(t)
 }
