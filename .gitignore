@@ -1,2 +1,3 @@
 .vscode
 /services/user/.env
+/services/files/node_modules
