@@ -23,19 +23,30 @@ const postFile = async (req, res, next) => {
                 videoId: req.files.videoId
             }
         }
-        const message = await uploadInfo(payload)
-        res.status(200).end("video")
+        await uploadInfo(payload)
+        res.status(200).json({
+            message: "Uploaded"
+        })
     } catch (err) {
-        console.log(err)
+        next(err)
     }
 }
 
-const stream = async (req, res) => {
+const stream = async (req, res, next) => {
     const { id } = req.params
     try {
         const data = await Video.find({ originalname: id })
         const arr = data.map(item => item.buffer)
         const buf = Buffer.concat(arr)
+        if (data.length == 0) {
+            throw {
+                code: 404,
+                message: {
+                    reason: "not found",
+                    msg: "Video not found"
+                }
+            }
+        }
         res.set({
             'Content-Type': 'video/mp4',
             'Content-Length': buf.length,
@@ -44,7 +55,7 @@ const stream = async (req, res) => {
         })
         res.end(buf)
     } catch (err) {
-        console.log(err)
+        next(err)
     }
 }
 
@@ -54,7 +65,14 @@ const getFileImgaeByName = async (req, res, next) => {
         const data = await Thubmnail.find({ originalname: id })
         res.status(200).end(data[0].buffer)
     } catch (err) {
-        console.log(err)
+        const msgErr = {
+            code: 404,
+            message: {
+                reason: "not found",
+                msg: "Image not found"
+            }
+        }
+        next(msgErr)
     }
 }
 

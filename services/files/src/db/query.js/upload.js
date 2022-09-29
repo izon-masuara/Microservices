@@ -1,5 +1,13 @@
 const { Video,Thubmnail,Info } = require('../models')
 
+/**
+ * 
+ * @param {Object} payload Object of file from multer 
+ * 
+ * @return {string} Original name
+ * 
+ * This fuction will upload file base on mimetype
+ */
 const uploadFile = async (payload) => {
     const {
         originalname,
@@ -43,16 +51,27 @@ const uploadFile = async (payload) => {
             return data.originalname
         }
     } catch (err) {
-        return err
+        throw {
+            code : 400,
+            message : err
+        }
     }
 }
 
+/**
+ * 
+ * @param {Object} payload Schema of Information model
+ * @returns {Object} message
+ */
 const uploadInfo = async(payload) => {
     try {
         const uploaded = await Info.create(payload)
         return uploaded
     } catch (err) {
-        return err
+        throw {
+            code : 400,
+            message : err
+        }
     }
 }
 
