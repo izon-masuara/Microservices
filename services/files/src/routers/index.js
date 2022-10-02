@@ -14,7 +14,6 @@ router.get(`${baseUrl}/`, getFiles)
 router.get(`${baseUrl}/image/:id`,getFileImgaeByName)
 router.get(`${baseUrl}/video/:id`, stream)
 
-
 router.use(errorHandler)
 
 module.exports = router

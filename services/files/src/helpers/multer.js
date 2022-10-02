@@ -8,18 +8,16 @@ const requestFile = (req, res, next) => {
             if (err) {
                 throw err
             }
-
             //  Validation key of payload
             messageError = []
             const keys = ["title","description","category","tags","uploadedUserId"]
-
             keys.forEach(key => {
-                if(key in req.body == false){
+                if(key in req.body === false){
                     messageError.push(key + " required")
                 }
             })
 
-            if (messageError.lenght == 0) {
+            if (messageError.length > 0) {
                 throw {
                     code : 400,
                     message : {
@@ -32,13 +30,14 @@ const requestFile = (req, res, next) => {
             const thubmnail = req.files[0]
             const video = req.files[1]
 
+
             //  Vilidation files
             if(thubmnail == undefined || video == undefined) {
                 throw {
                     code : 400,
                     message : {
                         reason : "file required",
-                        msg : "Must be upload thubmnail and video"
+                        messageError : "Must be upload thubmnail and video"
                     }
                 }
             }
@@ -48,7 +47,7 @@ const requestFile = (req, res, next) => {
                     code : 400,
                     message : {
                         reason : "image extention",
-                        msg : "Image file must be .jpeg or .jpg or .png"
+                        messageError : "Image file must be .jpeg or .jpg or .png"
                     }
                 }
             }else if (thubmnail.size >= 15000000) {
@@ -56,7 +55,7 @@ const requestFile = (req, res, next) => {
                     code : 400,
                     message : {
                         reason : "image size",
-                        msg : "image size must be less than 15Mb"
+                        messageError : "image size must be less than 15Mb"
                     }
                 }
             }
@@ -66,7 +65,7 @@ const requestFile = (req, res, next) => {
                     code : 400,
                     message : {
                         reason : "video extention",
-                        msg : "Vide file must be .mp4"
+                        messageError : "Vide file must be .mp4"
                     }
                 }
             }

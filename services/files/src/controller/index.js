@@ -1,3 +1,4 @@
+const { response } = require('../../app')
 const { Video, Thubmnail, Info } = require('../db/models')
 const { uploadInfo } = require('../db/query.js/upload')
 // const fs = require('fs')
@@ -24,8 +25,8 @@ const postFile = async (req, res, next) => {
             }
         }
         await uploadInfo(payload)
-        res.status(200).json({
-            message: "Uploaded"
+        res.status(201).json({
+            message: "Success upload information"
         })
     } catch (err) {
         next(err)
@@ -43,7 +44,7 @@ const stream = async (req, res, next) => {
                 code: 404,
                 message: {
                     reason: "not found",
-                    msg: "Video not found"
+                    messageError: "Video not found"
                 }
             }
         }
@@ -53,7 +54,7 @@ const stream = async (req, res, next) => {
             'Accept-Ranges': 'bytes',
             'Content-Range': `bytes ${0}-${buf.length}`,
         })
-        res.end(buf)
+        response.status(200).end(buf)
     } catch (err) {
         next(err)
     }
@@ -69,7 +70,7 @@ const getFileImgaeByName = async (req, res, next) => {
             code: 404,
             message: {
                 reason: "not found",
-                msg: "Image not found"
+                messageError: "Image not found"
             }
         }
         next(msgErr)
