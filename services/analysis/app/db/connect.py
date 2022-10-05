@@ -1,15 +1,19 @@
+import os
+from dotenv import load_dotenv
 import pymysql
+
+load_dotenv()
 
 class Database:
     """Database connection class."""
 
     def __init__(self):
-        self.__host = "127.0.0.1"
-        self.__username = "root"
-        self.__password = "password"
-        self.__port = int(3306)
-        self.__dbname = "analysis"
-        self.__connect_timeout = 5
+        self.__host = os.getenv('DB_HOST')
+        self.__username = os.getenv('DB_USERNAME')
+        self.__password = os.getenv('DB_PASS')
+        self.__port = int(os.getenv('DB_PORT'))
+        self.__dbname = os.getenv('DB_NAME')
+        self.__connect_timeout = int(os.getenv('DB_CONNECT_TIMEOUT'))
         self.__conn = None
         self.__open_connection()
 

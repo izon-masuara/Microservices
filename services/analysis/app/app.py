@@ -4,8 +4,6 @@ from db.connect import Database
 from analysis import analyzedData
 from helper.responseMsg import get_response_msg
 
-baseUrl = "/api/v1"
-
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(analyzedData)
@@ -26,6 +24,10 @@ def page_not_found(e):
 @app.errorhandler(HTTPStatus.BAD_REQUEST)
 def bad_request(e):
     return get_response_msg(str(e), HTTPStatus.BAD_REQUEST)
+
+@app.errorhandler(HTTPStatus.LENGTH_REQUIRED)
+def bad_request(e):
+    return get_response_msg(str(e), HTTPStatus.LENGTH_REQUIRED)
 
 
 ## HTTP 500 error handler
