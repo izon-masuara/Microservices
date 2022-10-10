@@ -30,6 +30,10 @@ const information = new Schema({
             type : String,
             require : true
         },
+        size : {
+            type : Number,
+            require : true
+        }
     },
     createdAt: {
         type: Date,

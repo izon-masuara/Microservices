@@ -40,7 +40,10 @@ const uploadFile = async (payload) => {
                 video.queue = 1 + i
                 await Video.create(video)
             }
-            return video.originalname
+            return {
+                videoName : video.originalname,
+                size : buffer.length
+            }
         }else if (mimetype == "image/jpeg" || mimetype == "image/jpg" || mimetype == "image/png"){
             const thubmnail = {
                 originalname : `${Date.now()}-wppq-thumbnail-${Math.random() * 10}-${originalname}`,

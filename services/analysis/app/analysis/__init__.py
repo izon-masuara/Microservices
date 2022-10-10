@@ -50,7 +50,7 @@ def getAbalizedData(id):
         query = f'''SELECT * FROM information WHERE user_id={id} ORDER BY id DESC LIMIT 20'''
         data = db.run_query(query)
         if len(data) < 20 :
-            raise Exception("data must be more than 10 rows")
+            raise Exception("data must be more than 20 rows")
         payload = dataToObject(data)
 
         categorys = {}
@@ -81,13 +81,13 @@ def getAbalizedData(id):
         for tag in tags :
             if tags[tag] > max:
                 max = tags[tag]
-                result['tag'] = { tag : max }
+                result['tag'] = tag 
 
         max = 0
         for category in categorys :
             if categorys[category] > max:
                 max = categorys[category]
-                result['category'] = { category : max }
+                result['category'] = category
 
         response = get_response_msg(result,HTTPStatus.OK)
         return response
