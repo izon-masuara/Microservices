@@ -2,6 +2,7 @@
 
 ## REQUIRMENTS
 + golang
++ postgresql
 
 ## Step by step to run the code
 + create ```.env``` file you can follow what you need on ```.env-example``` file

@@ -21,7 +21,8 @@ const postFile = async (req, res, next) => {
             uploadedUserId: Number(uploadedUserId),
             files: {
                 thubmnailId: req.files.thubId,
-                videoId: req.files.videoId
+                videoId: req.files.videoId,
+                size : req.files.size
             }
         }
         await uploadInfo(payload)
@@ -54,7 +55,7 @@ const stream = async (req, res, next) => {
             'Accept-Ranges': 'bytes',
             'Content-Range': `bytes ${0}-${buf.length}`,
         })
-        response.status(200).end(buf)
+        res.status(200).end(buf)
     } catch (err) {
         next(err)
     }

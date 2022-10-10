@@ -77,7 +77,8 @@ const requestFile = (req, res, next) => {
             // Data will pass to the next middleware
             req.files = {
                 thubId,
-                videoId
+                videoId : videoId.videoName,
+                size : videoId.size
             }
             next()
         } catch (error) {
