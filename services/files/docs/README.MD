@@ -6,15 +6,10 @@
 + mongodb
 
 ## Step by step to run the code
-
-+ run this app on folder ```files```
 ```
-    npm install
+    docker-compose up
 ```
-```
-    npm run dev
-```
-<br><br>
+<br>
 -----------
 
 ## ENDOPOINTS

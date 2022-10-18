@@ -5,19 +5,10 @@
 + mysql
 
 ## Step by step to run the code
-+ create ```.env``` file you can follow what you need on ```.env-example``` file
-+ Create Database ```analysis``` and table ```Information``` manually
-
-+ run testing before. Go to folder ```app```
-    ```
-        python3 test.py
-    ```
-    if all of test pass you can use this app.
-+ run this app on folder ```app```
 ```
-    python3 app.py
+    docker-compose up
 ```
-<br><br>
+<br>
 -----------
 
 ## ENDOPOINTS
@@ -53,7 +44,6 @@ Request
                         user_id: int, 
                         category:string,
                         tags : string,
-                        date : "yyyy-mm-dd"
                         duration : int
                         total_duartion : int
                     }
@@ -76,5 +66,5 @@ Request
 ```
 Response
 ```
-    Json { category : float, tag : int }
+    Json { category : String, tag : String }
 ```
