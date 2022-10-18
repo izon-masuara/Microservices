@@ -100,6 +100,7 @@ def getDataFromApiGateawayLoginBefore():
 
     response = requests.request("POST", urlUser, headers=headers, data=payload)
 
+
     token = response.json()['accessToken']
     tokenResp = token
     token = json.dumps({
@@ -107,7 +108,7 @@ def getDataFromApiGateawayLoginBefore():
     })
     
     resp = requests.request("GET",url=urlGateaway,data=token)
-    print(resp.json())
+    print(resp.json(),"<<<<")
     return resp.json(),tokenResp
 
 
@@ -117,13 +118,14 @@ def postDataToAnalysis():
 
     url = "http://localhost:3002?mutation=movies"
 
+    print(data)
+
     count = 0
     while count < 22 :
         payload = json.dumps({
             "accessToken": token,
             "category": categoryArr[randint(0,len(categoryArr)-1)],
             "tags" : [tagsArr[randint(0,len(tagsArr)-1)],"Programming"],
-            "date" : "2022-10-10",
             "duration" : 2000,
             "total_duration" : data[randint(0,len(data)-1)]['Files']['size']
         })
@@ -132,8 +134,8 @@ def postDataToAnalysis():
         count += 1
         print("success")
 
-# storeUser()
-# storeFile()
-# getDataFromApiGateawayWithoutLoginBefore()
-# getDataFromApiGateawayLoginBefore()
-# postDataToAnalysis()
+storeUser()
+storeFile()
+getDataFromApiGateawayWithoutLoginBefore()
+getDataFromApiGateawayLoginBefore()
+postDataToAnalysis()

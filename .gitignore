@@ -1,12 +1,15 @@
 .vscode
+*.http
+
+
+
 /services/user/.env
+/services/user/.dockerignore
 
 /services/files/node_modules
 /services/files/.env
+/services/files/.dockerignore
 
 /services/analysis/venv
-/services/analysis/app/__pycache__
-/services/analysis/app/analysis/__pycache__
-/services/analysis/app/db/__pycache__
-/services/analysis/app/helper/__pycache__
 /services/analysis/app/.env
+/services/analysis/.dockerignore

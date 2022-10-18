@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api_files:
+    container_name: api-movie-files
+    build: .
+    ports:
+      - 3001:3001
+    restart: always
+    links:
+      - mongo
+    depends_on:
+      - mongo
+  mongo:
+    container_name : mongo-api-movie
+    image: mongo
+    # ports:
+    #   - "27018:27017"
+    

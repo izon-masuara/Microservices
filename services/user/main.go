@@ -5,19 +5,19 @@ import (
 	"user/package/configs"
 	"user/package/routers"
 
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("./.env")
 	if err != nil {
 		panic("Error .env file")
 	}
+
+	r := mux.NewRouter()
 	configs.Connect()
-	routers.ApiUser()
-	address := "localhost:3000"
-	err = http.ListenAndServe(address, nil)
-	if err != nil {
-		panic("Error connect to server")
-	}
+	routers.ApiUser(r)
+
+	http.ListenAndServe(":3000", r)
 }

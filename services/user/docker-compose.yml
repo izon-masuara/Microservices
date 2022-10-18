@@ -1,0 +1,21 @@
+version: '3'
+services:
+  backend:
+    container_name: api-movie-user
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - pg
+
+  pg:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: pg
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=wppq
+      - POSTGRES_DB=user_movie

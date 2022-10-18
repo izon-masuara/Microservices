@@ -1,12 +1,13 @@
 package configs
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"user/package/models"
 
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 // Connect to database
@@ -19,12 +20,16 @@ func Connect() {
 		DB_NAME: os.Getenv("DB_NAME"),
 	}
 	psqlconn := fmt.Sprintf(
-		`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
-		appConfig.HOST, appConfig.PORT, appConfig.USER, appConfig.PASS, appConfig.DB_NAME)
-	db, err := sql.Open("postgres", psqlconn)
+		"postgres://%s:%s@%s:%s/%s",
+		appConfig.USER, appConfig.PASS, appConfig.HOST, appConfig.PORT, appConfig.DB_NAME)
+	db, err := gorm.Open(postgres.Open(psqlconn), &gorm.Config{})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("Connected!")
+
+	if err := db.AutoMigrate(models.Users{}); err != nil {
+		panic(err)
+	}
+
 	models.Db = db
 }

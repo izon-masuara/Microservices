@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - mysql_db
+    restart: always
+
+  mysql_db:
+    container_name: mysql_db
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=analysis

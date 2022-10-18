@@ -12,8 +12,8 @@ import (
 func GetFiles() models.Files {
 	client := db.Client
 	data := client.Get("movies")
-	if len(data.Val()) == 0 {
-		resp, err := http.Get("http://localhost:3001/api/v1/files/")
+	if len(data.Val()) == 0 || data.Val() == "[]" {
+		resp, err := http.Get("http://api_files:3001/api/v1/files")
 		if err != nil {
 			log.Fatal(err.Error())
 		}

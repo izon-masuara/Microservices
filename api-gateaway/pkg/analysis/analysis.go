@@ -26,21 +26,19 @@ func Analysis(r *http.Request) models.Files {
 			"user_id": "%v",
 			"category": "%v",
 			"tags" : "%v",
-			"date" : "%v",
 			"duration" : "%v",
 			"total_duration" : "%v"
 		  }`,
 		postAnalysis.UserId,
 		postAnalysis.Category,
 		postAnalysis.Tags,
-		postAnalysis.Date,
 		postAnalysis.Duration,
 		postAnalysis.TotalDuration)
-	_, err = http.Post("http://localhost:5000/api/v1/analysis/", "apilcation/json", bytes.NewBuffer([]byte(jsonRequest)))
+	_, err = http.Post("http://api_analysis:5000/api/v1/analysis/", "apilcation/json", bytes.NewReader([]byte(jsonRequest)))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	response, err := http.Get("http://localhost:5000/api/v1/analysis/" + fmt.Sprintf("%v", postAnalysis.UserId))
+	response, err := http.Get("http://api_analysis:5000/api/v1/analysis/" + fmt.Sprintf("%v", postAnalysis.UserId))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -71,6 +69,9 @@ func Analysis(r *http.Request) models.Files {
 		client.Set(fmt.Sprintf("userId:%v", postAnalysis.UserId), string(res), -1)
 		return newData
 	} else {
-		return models.Files{}
+		dataMovies := client.Get("movies")
+		dataFiles := models.Files{}
+		json.Unmarshal([]byte(dataMovies.Val()), &dataFiles)
+		return dataFiles
 	}
 }
