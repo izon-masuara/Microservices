@@ -1,6 +1,6 @@
 # Microservices
 
-### This simple microservices that have future :
+### This simple microservices that have feauture :
 - Authentication (USER SERVICE)
 - Manage Files (FILES SERVICE)
 - Analitic (ANALYSIS SERVICE)
