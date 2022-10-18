@@ -1,2 +1,15 @@
 # Microservices
-Implementation microservices
+
+### This simple microservices that have future :
+- Authentication (USER SERVICE)
+- Manage Files (FILES SERVICE)
+- Analitic (ANALYSIS SERVICE)
+
+### REQUIREMENTS
+- Docker
+- Docker-compose
+
+START THIS APP
+```
+    docker-compose up
+```
