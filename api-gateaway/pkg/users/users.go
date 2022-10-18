@@ -12,7 +12,7 @@ import (
 
 func VerifyToken(token string) models.User {
 	jsonStr := []byte(fmt.Sprintf(`{"accessToken" :"%v"}`, token))
-	resp, err := http.Post("http://localhost:3000/api/v1/user/token", "application/json", bytes.NewBuffer(jsonStr))
+	resp, err := http.Post("http://api_user:3000/api/v1/user/token", "application/json", bytes.NewBuffer(jsonStr))
 	if err != nil {
 		log.Fatal(err.Error())
 	}

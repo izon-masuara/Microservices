@@ -1,13 +1,13 @@
 def dataToObject(data):
     payload = []
-    for i in range(len(data)) :
+    for item in data:
         payload.append({
-            "id" : data[i][0],
-            "user_id" : data[i][1],
-            "category" : data[i][2],
-            "tags" : data[i][3],
-            "date" : data[i][4],
-            "duration" : data[i][5],
-            "total_duration": data[i][6]
+            "id" : item.id,
+            "user_id": item.user_id,
+            "category": item.category,
+            "tags": item.tags,
+            "duration": item.duration,
+            "total_duration": item.total_duration,
+            "date": str(item.date),
         })
     return payload

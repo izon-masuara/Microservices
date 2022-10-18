@@ -1,9 +1,11 @@
 package models
 
-import "database/sql"
+import (
+	"gorm.io/gorm"
+)
 
 type EnvConfig struct {
 	HOST, PORT, USER, PASS, DB_NAME string
 }
 
-var Db *sql.DB
+var Db *gorm.DB

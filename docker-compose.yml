@@ -1,0 +1,77 @@
+version: '3.8'
+services:
+  pg:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: pg
+    environment:
+      - POSTGRES_PASSWORD=wppq
+      - POSTGRES_DB=user_movie
+    ports:
+      - 5433:5432
+  mongo:
+    container_name : mongo-api-movie
+    image: mongo
+    ports:
+      - 27018:27017
+  mysql_db:
+    container_name: mysql_db
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=analysis
+    ports:
+      - 3307:3306
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+  api_user:
+    build: 
+      context: ./services/user
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - pg
+  api_files:
+    build: 
+      context: ./services/files
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongo
+  api_analysis:
+    build:
+      context: ./services/analysis
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - mysql_db
+    restart: always
+  api_gt:
+    container_name: api-gateaway-movie
+    build:
+      context: ./api-gateaway
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3002:3002
+    depends_on:
+      - redis
+      - api_analysis
+      - api_user
+      - api_files
+  # nginx:
+  #   depends_on:
+  #     - api_files
+  #     - api_user
+  #     - api_gt
+  #   restart: always
+  #   build: 
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
