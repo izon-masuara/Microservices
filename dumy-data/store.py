@@ -57,7 +57,7 @@ def storeFile():
     url = "http://localhost:3001/api/v1/files/upload"
 
     generateData = 0
-    stopGenerate = 30
+    stopGenerate = 100
     while generateData < stopGenerate :
         generateData += 1
         titleInt = randint(0,len(titleArr)-1)

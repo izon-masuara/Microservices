@@ -44,6 +44,8 @@ services:
       - 3001:3001
     depends_on:
       - mongo
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017
   api_analysis:
     build:
       context: ./services/analysis
@@ -53,6 +55,12 @@ services:
     depends_on:
       - mysql_db
     restart: always
+    environment:
+      - DB_HOST=mysql_db
+      - DB_USERNAME=root
+      - DB_PASS=password
+      - DB_PORT=3306
+      - DB_NAME=analysis
   api_gt:
     container_name: api-gateaway-movie
     build:
