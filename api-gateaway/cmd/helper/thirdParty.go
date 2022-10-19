@@ -17,7 +17,7 @@ var ExecuteQuery = func(query string, token string) models.Files {
 	} else {
 		user := users.VerifyToken(token)
 		data := client.Get(fmt.Sprintf("userId:%v", user.UserId))
-		if len(data.Val()) == 0 {
+		if len(data.Val()) == 0 || data.Val() == "[]" {
 			data := files.GetFiles()
 			return data
 		} else {

@@ -10,6 +10,9 @@
 - Docker-compose
 
 START THIS APP
+
+service user must have .env file and compare on your docker-compose environment variable
+
 ```
     docker-compose up
 ```

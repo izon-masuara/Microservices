@@ -3,13 +3,11 @@
 
 
 
-/services/user/.env
 /services/user/.dockerignore
+/services/user/.env
 
 /services/files/node_modules
-/services/files/.env
 /services/files/.dockerignore
 
 /services/analysis/venv
-/services/analysis/app/.env
 /services/analysis/.dockerignore
