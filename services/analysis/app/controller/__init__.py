@@ -37,7 +37,6 @@ class InputData(Resource):
             db.session.commit()
             return "Success Added", 201
         except exc.SQLAlchemyError as err:
-            print(err)
             return "Internal server error", 500
 
 class Analysis(Resource):
